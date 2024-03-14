@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-size: 14px;
+        }
+        .calculator {
+            width: 266px;
+            height: 381px;
+
+            background: rgba(23, 24, 26, 1); 
+            opacity: 1;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        .display{
+            width: 246px;
+            height: 75px;
+            background: url("../images/v2021_6.png");
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover;
+            opacity: 1;
+            position: relative;
+            margin: 9px auto;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+
+    .display p {
+    height: 20px;
+    width: 73px;
+    color: rgba(255, 255, 255, 1); /* Changer la couleur en blanc */
+    position: absolute;
+    top: 20px;
+    left: 173px;
+    font-family: Poppins;
+    font-weight: Medium;
+    font-size: 22px;
+    opacity: 1;
+    text-align: left;
+}
+
+.display span {
+    height: 20px;
+    width: 64px;
+    color: rgba(255, 255, 255, 1); /* Changer la couleur en blanc */
+    position: absolute;
+    top: 2px;
+    left: 182px;
+    font-family: Poppins;
+    font-weight: Medium;
+    font-size: 10px;
+    opacity: 1;
+    text-align: left;
+}
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1%;
+            padding-top: 2%;
+            padding-left: 5%;
+        }
+        .buttons button {
+            font-size: 25px;
+            margin-left: 7%;
+            height: 50px;
+            width: 40px;
+            border-radius: 10px;
+            background-color: #303136;
+            color: #29A8FF;
+        }
+        #grey {
+            background-color: grey;
+            color: #A5A5A5;
+        }
+        #plus {
+            height: 110px;
+            color: #B2DAFF;
+            background-color: #005DB2;
+            grid-row: span 2;
+        }
+        #equals {
+            width: 80%;
+            color: #B2DAFF;
+            background-color: #1991FF;
+            grid-column: span 2;
+            height: 50px; /* Ajout de la hauteur */
+            grid-row: span 2; /* Ajout pour occuper deux lignes */
+        }
+        #equals:hover {
+            background-color: #0e72e5; /* Changement de couleur au survol */
+        }
+        #zero {
+            width: 40px; /* Correction de la largeur */
+            height: 50px; /* Ajout de la hauteur */
+            grid-column: span 2;
+        }
+        #zero:hover {
+            background-color: #2f2f33; /* Changement de couleur au survol */
+        }
+        #min, #dev, #multi {
+            color: #B2DAFF;
+            background-color: #005DB2;
+        }
+    </style>
+</head>
+<body>
+    <main class="calculator">
+        <div class="display">
+            <p class="display-result"></p>
+            <span class="display-operation"></span>
+        </div>
+        <div class="buttons">
+            <button id="grey" value="">Ac</button>
+            <button id="grey" class="ll" value="">⌫</button>
+            <button id="dev" value="">/</button>
+            <button id="multi" value="">x</button>
+            <button value="">7</button>
+            <button value="">8</button>
+            <button value="">9</button>
+            <button id="min" value="">-</button>
+            <button value="">4</button>
+            <button value="">5</button>
+            <button value="">6</button>
+            <button id="plus" value="">+</button>
+            <button value="">1</button>
+            <button value="">2</button>
+            <button value="">3</button>
+            <button value="">.</button>
+            <button value="">0</button> <!-- Remplacer #zero par cette ligne -->
+            <button id="equals" value="=">=</button> <!-- Déplacer #equals ici -->
+        </div>
+    </main>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+    let operationText = document.querySelector('.display-operation');
+    let resultText = document.querySelector('.display-result');
+
+    document.querySelectorAll('.buttons button').forEach(button => {
+        button.addEventListener('click', () => {
+            if (button.textContent === '=') {
+                try {
+                    resultText.textContent = eval(operationText.textContent);
+                } catch (error) {
+                    resultText.textContent = 'Error';
+                }
+            } else if (button.textContent === 'Ac') {
+                operationText.textContent = '';
+                resultText.textContent = '';
+            } else if (button.textContent === '⌫') {
+                operationText.textContent = operationText.textContent.slice(0, -1);
+            } else {
+                operationText.textContent += button.textContent;
+            }
+        });
+    }); 
+});
+    </script>        
+    </script>
+</body>
+</html>
+
+
+
+
