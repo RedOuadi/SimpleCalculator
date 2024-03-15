@@ -120,54 +120,127 @@
     <main class="calculator">
         <div class="display">
             <p class="display-result"></p>
-            <span class="display-operation"></span>
+            <span class="display-operation" ></span>
         </div>
         <div class="buttons">
             <button id="grey" value="">Ac</button>
             <button id="grey" class="ll" value="">⌫</button>
-            <button id="dev" value="">/</button>
-            <button id="multi" value="">x</button>
-            <button value="">7</button>
-            <button value="">8</button>
-            <button value="">9</button>
-            <button id="min" value="">-</button>
-            <button value="">4</button>
-            <button value="">5</button>
-            <button value="">6</button>
-            <button id="plus" value="">+</button>
-            <button value="">1</button>
-            <button value="">2</button>
-            <button value="">3</button>
-            <button value="">.</button>
-            <button value="">0</button> <!-- Remplacer #zero par cette ligne -->
-            <button id="equals" value="=">=</button> <!-- Déplacer #equals ici -->
+            <button id="dev" value="/">/</button>
+            <button id="multi" value="x">x</button>
+            <button value="7">7</button>
+            <button value="8">8</button>
+            <button value="9">9</button>
+            <button id="min" value="-">-</button>
+            <button value="4">4</button>
+            <button value="5">5</button>
+            <button value="6">6</button>
+            <button id="plus" value="+">+</button>
+            <button value="1">1</button>
+            <button value="2">2</button>
+            <button value="3">3</button>
+            <button value=".">.</button>
+            <button value="0">0</button>
+            <button id="equals" value="=">=</button>
         </div>
     </main>
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
     let operationText = document.querySelector('.display-operation');
     let resultText = document.querySelector('.display-result');
+    let firstOperand = '';
+    let secondOperand = '';
+    let operator = '';
+    let calculated = false;
+
+    function calculate() {
+        let result = 0;
+        switch (operator) {
+            case '+':
+                result = parseFloat(firstOperand) + parseFloat(secondOperand);
+                break;
+            case '-':
+                result = parseFloat(firstOperand) - parseFloat(secondOperand);
+                break;
+            case 'x':
+                result = parseFloat(firstOperand) * parseFloat(secondOperand);
+                break;
+            case '/':
+                result = parseFloat(firstOperand) / parseFloat(secondOperand);
+                break;
+            default:
+                break;
+        }
+        return result;
+    }
+
+    function updateDisplay() {
+        operationText.textContent = firstOperand + ' ' + operator + ' ' + secondOperand;
+        resultText.textContent = secondOperand || firstOperand;
+    }
 
     document.querySelectorAll('.buttons button').forEach(button => {
         button.addEventListener('click', () => {
             if (button.textContent === '=') {
-                try {
-                    resultText.textContent = eval(operationText.textContent);
-                } catch (error) {
-                    resultText.textContent = 'Error';
+                if (firstOperand && operator && secondOperand) {
+                    let result = calculate();
+                    operationText.textContent += ' =';
+                    resultText.textContent = result;
+                    firstOperand = result.toString();
+                    secondOperand = '';
+                    operator = '';
+                    calculated = true;
                 }
             } else if (button.textContent === 'Ac') {
                 operationText.textContent = '';
                 resultText.textContent = '';
+                firstOperand = '';
+                secondOperand = '';
+                operator = '';
+                calculated = false;
             } else if (button.textContent === '⌫') {
-                operationText.textContent = operationText.textContent.slice(0, -1);
+                if (secondOperand) {
+                    secondOperand = secondOperand.slice(0, -1);
+                } else if (operator) {
+                    operator = '';
+                } else if (firstOperand) {
+                    firstOperand = firstOperand.slice(0, -1);
+                }
             } else {
-                operationText.textContent += button.textContent;
+                if (calculated) {
+                    firstOperand = '';
+                    secondOperand = '';
+                    operator = '';
+                    calculated = false;
+                }
+                if (!operator) {
+                    if (button.textContent === '+' || button.textContent === '-' || button.textContent === 'x' || button.textContent === '/') {
+                        if (firstOperand) {
+                            operator = button.textContent;
+                            operationText.textContent = firstOperand + ' ' + operator;
+                        }
+                    } else {
+                        firstOperand += button.textContent;
+                    }
+                } else {
+                    if (button.textContent === '+' || button.textContent === '-' || button.textContent === 'x' || button.textContent === '/') {
+                        if (secondOperand) {
+                            let result = calculate();
+                            firstOperand = result.toString();
+                            secondOperand = '';
+                        }
+                        operator = button.textContent;
+                        operationText.textContent = firstOperand + ' ' + operator;
+                    } else {
+                        secondOperand += button.textContent;
+                    }
+                }
             }
+
+            updateDisplay(); // Mettre à jour l'affichage à chaque clic sur un bouton
         });
-    }); 
+    });
 });
-    </script>        
+
     </script>
 </body>
 </html>
