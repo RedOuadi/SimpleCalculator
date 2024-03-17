@@ -165,6 +165,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 result = parseFloat(firstOperand) * parseFloat(secondOperand);
                 break;
             case '/':
+                if(parseFloat(secondOperand) === 0){
+                    resultText.textContent = "division par 0 impossible";
+                    return;
+                }
                 result = parseFloat(firstOperand) / parseFloat(secondOperand);
                 break;
             default:
@@ -218,6 +222,10 @@ document.addEventListener('DOMContentLoaded', () => {
                             operator = button.textContent;
                             operationText.textContent = firstOperand + ' ' + operator;
                         }
+                    } else if (button.textContent === '.') {
+                        if (!firstOperand.includes('.')) {
+                            firstOperand += button.textContent;
+                        }
                     } else {
                         firstOperand += button.textContent;
                     }
@@ -230,6 +238,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                         operator = button.textContent;
                         operationText.textContent = firstOperand + ' ' + operator;
+                    } else if (button.textContent === '.') {
+                        if (!secondOperand.includes('.')) {
+                            secondOperand += button.textContent;
+                        }
                     } else {
                         secondOperand += button.textContent;
                     }
@@ -244,7 +256,6 @@ document.addEventListener('DOMContentLoaded', () => {
     </script>
 </body>
 </html>
-
 
 
 
